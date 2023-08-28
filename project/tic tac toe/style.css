@@ -1,0 +1,116 @@
+/* Tooltip text */
+.game_id .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  top: 125%;
+  left: 50%;
+  margin-left: -60px;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.game_id .tooltiptext::after {
+  content: "";
+  position: absolute;
+  /* top: 100%; */
+  left: 50%;
+  /* margin-left: -5px; */
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.game_id:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.game_id {
+  position: fixed;
+  background: #f25;
+  padding: 10px 10px;
+  margin: 5px 0;
+  color: #22FFCC;
+  border-radius: 10px;
+}
+
+.container {
+  width: 255px;
+  text-align: center;
+  font-family: system-ui;
+  color: white;
+  margin: auto;
+  font-weight: 500;
+}
+
+.score {
+  background: #f25;
+  padding: 5px 0;
+  margin: 5px 0;
+  color: #22FFCC;
+  border-radius: 10px;
+  font-size: large;
+}
+
+.square {
+  width: 80px;
+  height: 80px;
+  background: #f25;
+  float: left;
+  margin: 2px;
+  font-size: 50px;
+  border-radius: 10px;
+}
+
+.square:hover {
+  background: #000;
+  cursor: pointer;
+}
+
+.reset {
+  width: 126px;
+  height: 30px;
+  background: #f25;
+  float: left;
+  margin-top: 5px;
+  margin-left: 25%;
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+.reset:hover {
+  background: #000;
+  cursor: pointer;
+}
+
+.result {
+  width: 248px;
+  height: 248px;
+  background-color: rgb(34 255 181 / .9);
+  margin: 2px;
+  border-radius: 10px;
+  font-size: xx-large;
+  position: absolute;
+  display: none;
+}
+
+.result p {
+  margin: 0;
+  position: absolute;
+  top: 47%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

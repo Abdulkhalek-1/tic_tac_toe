@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tic Tac Toe</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="game_id" onclick="copy()" style="cursor: pointer;">
+    <span class="tooltiptext">Copy</span>
+    <b>Game ID: </b><span class="id"></span>
+  </div>
+  <div class="container">
+    <div class="score"><span class="x">0</span> - <span class="o">0</span></div>
+    <div class="game">
+      <div class="result"><p></p></div>
+      <div class="square" xy="13" value="" onclick="game(this)"></div>
+      <div class="square" xy="23" value="" onclick="game(this)"></div>
+      <div class="square" xy="33" value="" onclick="game(this)"></div>
+
+      <div class="square" xy="12" value="" onclick="game(this)"></div>
+      <div class="square" xy="22" value="" onclick="game(this)"></div>
+      <div class="square" xy="32" value="" onclick="game(this)"></div>
+
+      <div class="square" xy="11" value="" onclick="game(this)"></div>
+      <div class="square" xy="21" value="" onclick="game(this)"></div>
+      <div class="square" xy="31" value="" onclick="game(this)"></div>
+    </div>
+    <div class="reset" onclick="reset()">Reset</div>
+  </div>
+  <script src="./main.js"></script>
+</body>
+</html>
