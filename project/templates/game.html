@@ -7,28 +7,35 @@
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+<div id="popup1" class="overlay">
+	<div class="popup">
+		<h2>Game Is Full</h2>
+	</div>
+</div>
+<div class="main">
 <div class="game_id" onclick="navigator.clipboard.writeText(`${window.location}`)" style="cursor: pointer;">
     <span class="tooltiptext">Copy</span>
     <b>Game ID: </b><span class="id">{{ game_id }}</span>
-  </div>
+  </div>  
   <div class="container">
     <div class="score"><span class="x">0</span> - <span class="o">0</span></div>
     <div class="game">
       <div class="result"><p></p></div>
-      <div class="square" xy="13" value="" onclick=""></div>
-      <div class="square" xy="23" value="" onclick=""></div>
-      <div class="square" xy="33" value="" onclick=""></div>
+      <div class="square" id="13" value="" onclick="play(this.id)"></div>
+      <div class="square" id="23" value="" onclick="play(this.id)"></div>
+      <div class="square" id="33" value="" onclick="play(this.id)"></div>
 
-      <div class="square" xy="12" value="" onclick=""></div>
-      <div class="square" xy="22" value="" onclick=""></div>
-      <div class="square" xy="32" value="" onclick=""></div>
+      <div class="square" id="12" value="" onclick="play(this.id)"></div>
+      <div class="square" id="22" value="" onclick="play(this.id)"></div>
+      <div class="square" id="32" value="" onclick="play(this.id)"></div>
 
-      <div class="square" xy="11" value="" onclick=""></div>
-      <div class="square" xy="21" value="" onclick=""></div>
-      <div class="square" xy="31" value="" onclick=""></div>
+      <div class="square" id="11" value="" onclick="play(this.id)"></div>
+      <div class="square" id="21" value="" onclick="play(this.id)"></div>
+      <div class="square" id="31" value="" onclick="play(this.id)"></div>
     </div>
     <div class="reset" onclick="reset()">Reset</div>
-  </div>
+</div>
+</div>
   <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
