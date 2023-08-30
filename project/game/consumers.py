@@ -1,4 +1,4 @@
-import json
+import json, time
 from .models import Game
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
@@ -16,7 +16,19 @@ class GameConsumer(AsyncWebsocketConsumer):
             print(f"\n\nJoin\n")
             if self.game.players_count < 2:
                 await self.accept()
-                await self.send(text_data=json.dumps(self.game.state))
+                # await self.send(text_data=json.dumps({"message": self.game.state}))
+                # await self.send(text_data=json.dumps(self.game.state))
+                await self.channel_layer.group_send(
+                    self.game_room,
+                    {
+                        "type": "play",
+                        "message": self.game.state,
+                        "current_turn": self.game.turn,
+                        "game_result": "still playing",
+                        "x_score": self.game.x_score,
+                        "o_score": self.game.o_score,
+                    },
+                )
                 self.game.players_count += 1
                 await sync_to_async(self.game.save)()
                 await self.send(text_data="o")
@@ -33,13 +45,12 @@ class GameConsumer(AsyncWebsocketConsumer):
         if code != 1006:
             print("\n\ndis")
             await self.get_game()
-            print(f"\n\n{self.game.players_count}\n")
             if self.game.players_count > 1:
                 self.game.players_count -= 1
-                await (sync_to_async(self.game.save)())
+                await sync_to_async(self.game.save)()
             else:
                 print("Delete")
-                await (sync_to_async(self.game.delete)())
+                await sync_to_async(self.game.delete)()
         pass
 
     async def receive(self, text_data):
@@ -48,22 +59,81 @@ class GameConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         id = text_data_json["id"]
         value = text_data_json["value"]
-        print(id, value)
+        ct = text_data_json["current_turn"]
+        if id not in [
+            "11",
+            "12",
+            "13",
+            "21",
+            "22",
+            "23",
+            "31",
+            "32",
+            "33",
+        ] or value.lower() not in ["x", "o"]:
+            print("Error")
+            await self.close()
+            return
+        current_turn = "x" if ct.lower() == "o" else "o"
+        game_room.turn = current_turn
         game_room.state[id] = value
         await sync_to_async(game_room.save)()
-        print(game_room.state)
+        game_result = self.game_result(game_room.state)
+        if game_result.lower() == "x":
+            game_room.x_score += 1
+        elif game_result.lower() == "o":
+            game_room.o_score += 1
+        await sync_to_async(game_room.save)()
         await self.channel_layer.group_send(
-            self.game_room, {
+            self.game_room,
+            {
                 "type": "play",
-                "message": game_room.state
-                }
+                "message": game_room.state,
+                "current_turn": current_turn,
+                "game_result": game_result,
+                "x_score": game_room.x_score,
+                "o_score": game_room.o_score,
+            },
         )
-        # await self.send(text_data=json.dumps())
-        # pass
+        if game_result.lower() == "x" or game_result.lower() == "o":
+            time.sleep(.1)
+            game_room.state = {
+                "11": "",
+                "12": "",
+                "13": "",
+                "21": "",
+                "22": "",
+                "23": "",
+                "31": "",
+                "32": "",
+                "33": "",
+            }
+            await self.channel_layer.group_send(
+                self.game_room,
+                {
+                    "type": "play",
+                    "message": game_room.state,
+                    "current_turn": game_result,
+                    "game_result": game_result,
+                    "x_score": game_room.x_score,
+                    "o_score": game_room.o_score,
+                },
+            )
+            await sync_to_async(game_room.save)()
 
     async def play(self, event):
         # send message to SebSocket (front-end)
-        await self.send(text_data=json.dumps(event['message']))
+        await self.send(
+            text_data=json.dumps(
+                {
+                    "state": event["message"],
+                    "current_turn": event["current_turn"],
+                    "game_result": event["game_result"],
+                    "x_score": event["x_score"],
+                    "o_score": event["o_score"],
+                }
+            )
+        )
 
     @sync_to_async
     def get_game(self):
@@ -71,4 +141,31 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def create_game(self):
-        Game.objects.create(game_id=self.game_id, x_score=0, y_score=0, players_count=1)
+        Game.objects.create(game_id=self.game_id, x_score=0, o_score=0, players_count=1)
+
+    def game_result(self, board):
+        # Define winning combinations (rows, columns, diagonals)
+        winning_combinations = [
+            ["11", "12", "13"],
+            ["21", "22", "23"],
+            ["31", "32", "33"],  # Rows
+            ["11", "21", "31"],
+            ["12", "22", "32"],
+            ["13", "23", "33"],  # Columns
+            ["11", "22", "33"],
+            ["13", "22", "31"],  # Diagonals
+        ]
+
+        # Check for a win
+        for combination in winning_combinations:
+            if all(board[pos] == "X" for pos in combination):
+                return "X"
+            elif all(board[pos] == "O" for pos in combination):
+                return "O"
+
+        # Check for a draw (if no empty spaces are left)
+        if all(value != "" for value in board.values()):
+            return "draw"
+
+        # The game is still ongoing
+        return "still playing"
