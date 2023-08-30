@@ -113,7 +113,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                     "type": "play",
                     "message": game_room.state,
                     "current_turn": game_result,
-                    "game_result": game_result,
+                    "game_result": game_result if game_result.lower() in ["x", "o"] else current_turn,
                     "x_score": game_room.x_score,
                     "o_score": game_room.o_score,
                 },
