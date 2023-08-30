@@ -95,8 +95,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                 "o_score": game_room.o_score,
             },
         )
-        if game_result.lower() == "x" or game_result.lower() == "o":
-            time.sleep(.1)
+        if game_result.lower() == "x" or game_result.lower() == "o" or game_result.lower()=="draw"  :
             game_room.state = {
                 "11": "",
                 "12": "",

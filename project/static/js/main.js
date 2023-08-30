@@ -115,33 +115,3 @@ function joinGame() {
 }
 
 window.onload = joinGame
-
-function reset() {
-  let initState = {
-    "11": "",
-    "12": "",
-    "13": "",
-    "21": "",
-    "22": "",
-    "23": "",
-    "31": "",
-    "32": "",
-    "33": ""
-  }
-  update(initState)
-  // for (let id in initState) { 
-  //   document.getElementById(id).setAttribute("value", "")
-  // }
-  // for (let id in initState) {
-  //   gameSocket.send(
-  //     JSON.stringify({
-  //       type: "message",
-  //       id: id,
-  //       value: initState[id],
-  //       current_turn: currentTurn
-  //     })
-  //   );
-  // }
-}
-
-
