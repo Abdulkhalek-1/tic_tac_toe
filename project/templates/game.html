@@ -1,44 +1,106 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tic Tac Toe</title>
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-  <section class="game-screen flex flex-col h-screen duration-700 p-6 bg-green-500 items-center">
-  <div class="game_id" onclick="navigator.clipboard.writeText(`${window.location}`)" style="cursor: pointer;">
-    <b>Game ID: </b><span class="id">{{ game_id }}</span>
-  </div> 
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Tic Tac Toe</title>
+        <link rel="stylesheet" href="./css/style.css" />
+    </head>
+    <body>
+        <section
+            class="game-screen flex flex-col h-screen duration-700 p-6 bg-green-500 items-center"
+        >
+            <div class="game_id" onclick="copy()" style="cursor: pointer">
+                <b>Game ID: </b><span class="id">{{ game_id }}</span>
+            </div>
 
-  <div class="game-screen__grid flex flex-col h-full justify-center content-center max-w-xs">
-    <div class="self-center ">
-      <div class="text-3xl max-w-xs">
-        <div class="flex items-center justify-between -mb-2 gap-2">
-          <div class="text-white flex items-center justify-center w-28 mb-4 h-12  border-white border-2 rounded-xl  bg-white bg-opacity-0">X:<span class="pl-2 x-score"> 0</span></div>
-          <div class="text-white flex items-center justify-center w-28 mb-4 h-12  border-white border-2 rounded-xl bg-white bg-opacity-0">O: <span class="pl-2 o-score">0</span></div>
-        </div>
-        <div class="flex -mb-2 gap-2">
-          <div id="13" value="" onclick="play(this.id)" class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"></div>
-          <div id="23" value="" onclick="play(this.id)" class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"></div>
-          <div id="33" value="" onclick="play(this.id)" class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"></div>
-        </div>
-        <div class="flex -mb-2 gap-2">
-          <div id="12" value="" onclick="play(this.id)" class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"></div>
-          <div id="22" value="" onclick="play(this.id)" class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"></div>
-          <div id="32" value="" onclick="play(this.id)" class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"></div>
-        </div>
-        <div class="flex -mb-2 gap-2">
-          <div id="11" value="" onclick="play(this.id)" class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"></div>
-          <div id="21" value="" onclick="play(this.id)" class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"></div>
-          <div id="31" value="" onclick="play(this.id)" class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<script src="{% static 'js/main.js' %}"></script>
-</body>
+            <div
+                class="game-screen__grid flex flex-col h-full justify-center content-center max-w-xs"
+            >
+                <div class="self-center">
+                    <div class="text-3xl max-w-xs">
+                        <div
+                            class="flex items-center justify-between -mb-2 gap-2"
+                        >
+                            <div
+                                class="text-white flex items-center justify-center w-28 mb-4 h-12 border-white border-2 rounded-xl bg-white bg-opacity-0"
+                            >
+                                X:<span class="pl-2 x-score"> 0</span>
+                            </div>
+                            <div
+                                class="text-white flex items-center justify-center w-28 mb-4 h-12 border-white border-2 rounded-xl bg-white bg-opacity-0"
+                            >
+                                O: <span class="pl-2 o-score">0</span>
+                            </div>
+                        </div>
+                        <div class="flex -mb-2 gap-2">
+                            <div
+                                id="13"
+                                value=""
+                                onclick="play(this.id)"
+                                class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"
+                            ></div>
+                            <div
+                                id="23"
+                                value=""
+                                onclick="play(this.id)"
+                                class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"
+                            ></div>
+                            <div
+                                id="33"
+                                value=""
+                                onclick="play(this.id)"
+                                class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"
+                            ></div>
+                        </div>
+                        <div class="flex -mb-2 gap-2">
+                            <div
+                                id="12"
+                                value=""
+                                onclick="play(this.id)"
+                                class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"
+                            ></div>
+                            <div
+                                id="22"
+                                value=""
+                                onclick="play(this.id)"
+                                class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"
+                            ></div>
+                            <div
+                                id="32"
+                                value=""
+                                onclick="play(this.id)"
+                                class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"
+                            ></div>
+                        </div>
+                        <div class="flex -mb-2 gap-2">
+                            <div
+                                id="11"
+                                value=""
+                                onclick="play(this.id)"
+                                class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"
+                            ></div>
+                            <div
+                                id="21"
+                                value=""
+                                onclick="play(this.id)"
+                                class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"
+                            ></div>
+                            <div
+                                id="31"
+                                value=""
+                                onclick="play(this.id)"
+                                class="game-screen__cell flex items-center justify-center w-20 mb-4 h-20 bg-transparent border-white border-2 rounded-xl bg-white bg-opacity-0 hover:bg-opacity-25 duration-300"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- TODO: Change the content of this paragraph depending on the game state -->
+                <p class="text-center text-white" style="font-size: 20px">
+                    e.g. X player turn
+                </p>
+            </div>
+        </section>
+        <script src="./js/main.js"></script>
+    </body>
 </html>
